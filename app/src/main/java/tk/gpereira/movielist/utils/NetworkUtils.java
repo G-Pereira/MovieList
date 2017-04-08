@@ -17,7 +17,7 @@ public class NetworkUtils {
     private final static String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/popular";
 
     private final static String PARAM_API = "api_key";
-    private final static String API_KEY = "f9f41b0fcedfe1f91f64333f6a9c5ae7";
+    private final static String API_KEY = "xxxxx";
 
     private final static String PARAM_SORT = "sort_by";
 
