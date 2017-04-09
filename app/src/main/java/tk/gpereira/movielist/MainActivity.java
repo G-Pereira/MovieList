@@ -1,6 +1,6 @@
 package tk.gpereira.movielist;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,26 +19,37 @@ import java.util.ArrayList;
 import tk.gpereira.movielist.utils.JsonUtils;
 import tk.gpereira.movielist.utils.NetworkUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieClickListener {
 
     MovieAdapter movieAdapter;
+    RecyclerView mMovieList;
 
-    public ArrayList<String> movies = new ArrayList<>();
+    ArrayList<Movie> movies = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView mMovieList = (RecyclerView) findViewById(R.id.rv_movies);
+        mMovieList = (RecyclerView) findViewById(R.id.rv_movies);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         mMovieList.setLayoutManager(layoutManager);
         mMovieList.setHasFixedSize(true);
 
-        movieAdapter = new MovieAdapter(movies);
+        movieAdapter = new MovieAdapter(movies, this);
         mMovieList.setAdapter(movieAdapter);
         refreshData();
+    }
+    @Override
+    public void onMovieClick(int clickedMovieIndex){
+        Intent intent = new Intent(MainActivity.this, MovieDescription.class);
+        intent.putExtra("poster", movies.get(clickedMovieIndex).getPoster());
+        intent.putExtra("title", movies.get(clickedMovieIndex).getTitle());
+        intent.putExtra("description", movies.get(clickedMovieIndex).getDescription());
+        intent.putExtra("date", movies.get(clickedMovieIndex).getDate());
+        intent.putExtra("rating", movies.get(clickedMovieIndex).getRating());
+        startActivity(intent);
     }
 
     @Override
@@ -62,13 +73,13 @@ public class MainActivity extends AppCompatActivity {
         new MovieQueryTask().execute(tmdbUrl);
     }
 
-    private class MovieQueryTask extends AsyncTask<URL, Void, ArrayList<String>> {
+    private class MovieQueryTask extends AsyncTask<URL, Void, ArrayList<Movie>> {
 
         @Override
-        protected ArrayList<String> doInBackground(URL... urls) {
+        protected ArrayList<Movie> doInBackground(URL... urls) {
             URL searchUrl = urls[0];
             String movieResults = null;
-            ArrayList<String> movies = new ArrayList<>();
+            ArrayList<Movie> movies = new ArrayList<>();
             try {
                 movieResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
             } catch (IOException e) {
@@ -85,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> results) {
+        protected void onPostExecute(ArrayList<Movie> results) {
             movies.clear();
             movies.addAll(results);
             movieAdapter.notifyDataSetChanged();

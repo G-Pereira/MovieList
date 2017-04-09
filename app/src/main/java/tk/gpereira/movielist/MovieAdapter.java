@@ -7,28 +7,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.view.View.OnClickListener;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
+class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private ArrayList<String> mMovies;
+    private ArrayList<Movie> mMovies;
+
+    final private MovieClickListener mOnClickListener;
+
+    interface MovieClickListener{
+        void onMovieClick(int clickedMovieIndex);
+    }
+
+    MovieAdapter(ArrayList<Movie> movies, MovieClickListener listener)
+    {
+        mOnClickListener = listener;
+        mMovies = movies;
+    }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         int layoutIdForListItem = R.layout.movie_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = inflater.inflate(layoutIdForListItem, parent, false);
 
-        return new ViewHolder(view);
-    }
-
-    MovieAdapter(ArrayList<String> movies) {
-        mMovies = movies;
+        return new MovieViewHolder(view);
     }
 
     @Override
@@ -37,21 +46,27 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bind(mMovies.get(position));
+    public void onBindViewHolder(MovieViewHolder holder, int position) {
+        holder.bind(mMovies.get(position).getPoster());
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-
+    class MovieViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
         ImageView listItemView;
 
-        private ViewHolder(View itemView) {
+        MovieViewHolder(View itemView) {
             super(itemView);
             listItemView = (ImageView) itemView.findViewById(R.id.iv_item);
+            itemView.setOnClickListener(this);
         }
 
         void bind(String movie) {
+            Log.i("DATA", movie);
             Picasso.with(itemView.getContext()).load(movie).into(listItemView);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mOnClickListener.onMovieClick(getAdapterPosition());
         }
     }
 }
