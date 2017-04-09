@@ -22,8 +22,7 @@ import tk.gpereira.movielist.utils.NetworkUtils;
 
 class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
-    private int mNumberItems;
-    private ArrayList<String> movies = new ArrayList<>();
+    private ArrayList<String> mMovies;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,13 +35,13 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
-    MovieAdapter(int numberOfItems){
-        mNumberItems = numberOfItems;
+    MovieAdapter(ArrayList<String> movies){
+        mMovies = movies;
     }
 
     @Override
     public int getItemCount() {
-        return mNumberItems;
+        return mMovies.size();
     }
 
     @Override
@@ -58,36 +57,9 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
             listItemView = (ImageView) itemView.findViewById(R.id.iv_item);
         }
         void bind(int position) {
-            String sortParameter = "release_date.desc";
-            URL tmdbUrl = NetworkUtils.buildUrl(sortParameter);
-            new MovieQueryTask().execute(tmdbUrl);
+            Picasso.with(itemView.getContext()).load(mMovies.get(position)).into(listItemView);
         }
-        private class MovieQueryTask extends AsyncTask<URL, Void, String> {
 
-            @Override
-            protected String doInBackground(URL... urls) {
-                URL searchUrl = urls[0];
-                String movieResults = null;
-                try{
-                    movieResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
-                } catch (IOException e){
-                    e.printStackTrace();
-                }
-                return movieResults;
-            }
-
-            @Override
-            protected void onPostExecute(String resultsJSONString) {
-                if(resultsJSONString != null && !resultsJSONString.equals("")){
-                    try {
-                        JsonUtils.parse(movies, resultsJSONString);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Picasso.with(itemView.getContext()).load(movies.get(1)).into(listItemView);
-                }
-            }
-        }
     }
 
 }

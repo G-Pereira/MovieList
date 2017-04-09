@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,22 +21,54 @@ import tk.gpereira.movielist.utils.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int NUM_LIST_ITEMS = 5;
     MovieAdapter movieAdapter;
-    private RecyclerView mMovieList;
+
+    private ArrayList<String> movies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mMovieList = (RecyclerView) findViewById(R.id.rv_movies);
+        RecyclerView mMovieList = (RecyclerView) findViewById(R.id.rv_movies);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mMovieList.setLayoutManager(layoutManager);
         mMovieList.setHasFixedSize(true);
 
-        movieAdapter = new MovieAdapter(NUM_LIST_ITEMS);
+        movieAdapter = new MovieAdapter(movies);
         mMovieList.setAdapter(movieAdapter);
+
+        String sortParameter = "release_date.desc";
+        URL tmdbUrl = NetworkUtils.buildUrl(sortParameter);
+        new MovieQueryTask().execute(tmdbUrl);
+    }
+
+    private class MovieQueryTask extends AsyncTask<URL, Void, ArrayList<String>> {
+
+        @Override
+        protected ArrayList<String> doInBackground(URL... urls) {
+            URL searchUrl = urls[0];
+            String movieResults = null;
+            ArrayList<String> movies = new ArrayList<>();
+            try{
+                movieResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            if(movieResults != null && !movieResults.equals("")){
+                try {
+                    JsonUtils.parse(movies, movieResults);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return movies;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> strings) {
+            movieAdapter.notifyDataSetChanged();
+        }
     }
 }
