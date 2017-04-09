@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     MovieAdapter movieAdapter;
 
-    private ArrayList<String> movies;
+    public ArrayList<String> movies = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +47,12 @@ public class MainActivity extends AppCompatActivity {
             URL searchUrl = urls[0];
             String movieResults = null;
             ArrayList<String> movies = new ArrayList<>();
-            try{
+            try {
                 movieResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(movieResults != null && !movieResults.equals("")){
+            if (movieResults != null && !movieResults.equals("")) {
                 try {
                     JsonUtils.parse(movies, movieResults);
                 } catch (JSONException e) {
@@ -64,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<String> results) {
-            movies = results;
+            movies.clear();
+            movies.addAll(results);
             movieAdapter.notifyDataSetChanged();
         }
     }
