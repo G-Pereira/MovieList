@@ -1,10 +1,14 @@
 package tk.gpereira.movielist;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -34,9 +38,27 @@ public class MainActivity extends AppCompatActivity {
 
         movieAdapter = new MovieAdapter(movies);
         mMovieList.setAdapter(movieAdapter);
+        refreshData();
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.refresh){
+            refreshData();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    void refreshData(){
         String sortParameter = "release_date.desc";
         URL tmdbUrl = NetworkUtils.buildUrl(sortParameter);
+        Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show();
         new MovieQueryTask().execute(tmdbUrl);
     }
 
