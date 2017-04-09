@@ -1,16 +1,12 @@
 package tk.gpereira.movielist;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView mMovieList = (RecyclerView) findViewById(R.id.rv_movies);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mMovieList.setLayoutManager(layoutManager);
         mMovieList.setHasFixedSize(true);
 
