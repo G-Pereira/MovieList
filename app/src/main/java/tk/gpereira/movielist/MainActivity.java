@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     void refreshData(){
         String sortParameter = "release_date.desc";
-        URL tmdbUrl = NetworkUtils.buildUrl(sortParameter);
+        URL tmdbUrl = NetworkUtils.buildUrl(sortParameter, getString(R.string.tmdb_api_key));
         Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show();
         new MovieQueryTask().execute(tmdbUrl);
     }

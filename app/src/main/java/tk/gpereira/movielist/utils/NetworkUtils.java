@@ -1,6 +1,8 @@
 package tk.gpereira.movielist.utils;
 
+import android.content.res.Resources;
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +19,6 @@ public class NetworkUtils {
     private final static String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/popular";
 
     private final static String PARAM_API = "api_key";
-    private final static String API_KEY = "xxxxx";
 
     private final static String PARAM_SORT = "sort_by";
 
@@ -27,7 +28,7 @@ public class NetworkUtils {
      * @param tmdbSearchQuery The keyword that will be queried for.
      * @return The URL to use to query the GitHub.
      */
-    public static URL buildUrl(String tmdbSearchQuery) {
+    public static URL buildUrl(String tmdbSearchQuery, String API_KEY) {
         Uri builtUri = Uri.parse(TMDB_BASE_URL).buildUpon()
                 .appendQueryParameter(PARAM_API, API_KEY)
                 .appendQueryParameter(PARAM_SORT, tmdbSearchQuery)
@@ -39,7 +40,6 @@ public class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         return url;
     }
 
