@@ -1,24 +1,15 @@
 package tk.gpereira.movielist;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.net.Uri;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-
-import tk.gpereira.movielist.utils.JsonUtils;
-import tk.gpereira.movielist.utils.NetworkUtils;
 
 class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
@@ -35,7 +26,7 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
         return new ViewHolder(view);
     }
 
-    MovieAdapter(ArrayList<String> movies){
+    MovieAdapter(ArrayList<String> movies) {
         mMovies = movies;
     }
 
@@ -52,10 +43,12 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView listItemView;
+
         private ViewHolder(View itemView) {
             super(itemView);
             listItemView = (ImageView) itemView.findViewById(R.id.iv_item);
         }
+
         void bind(int position) {
             Picasso.with(itemView.getContext()).load(mMovies.get(position)).into(listItemView);
         }

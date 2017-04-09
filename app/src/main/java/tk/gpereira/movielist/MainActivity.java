@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> strings) {
+        protected void onPostExecute(ArrayList<String> results) {
+            movies = results;
             movieAdapter.notifyDataSetChanged();
         }
     }
