@@ -37,7 +37,7 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bind(position);
+        holder.bind(mMovies.get(position));
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -49,8 +49,8 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
             listItemView = (ImageView) itemView.findViewById(R.id.iv_item);
         }
 
-        void bind(int position) {
-            Picasso.with(itemView.getContext()).load(mMovies.get(position)).into(listItemView);
+        void bind(String movie) {
+            Picasso.with(itemView.getContext()).load(movie).into(listItemView);
         }
 
     }
