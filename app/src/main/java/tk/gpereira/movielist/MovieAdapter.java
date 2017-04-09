@@ -2,6 +2,7 @@ package tk.gpereira.movielist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,5 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
         void bind(String movie) {
             Picasso.with(itemView.getContext()).load(movie).into(listItemView);
         }
-
     }
-
 }
