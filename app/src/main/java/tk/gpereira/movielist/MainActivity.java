@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mMovieList.setAdapter(movieAdapter);
         refreshData();
     }
+
     @Override
-    public void onMovieClick(int clickedMovieIndex){
+    public void onMovieClick(int clickedMovieIndex) {
         Intent intent = new Intent(MainActivity.this, MovieDescription.class);
         intent.putExtra("poster", movies.get(clickedMovieIndex).getPoster());
         intent.putExtra("title", movies.get(clickedMovieIndex).getTitle());
@@ -60,13 +61,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.refresh){
+        if (item.getItemId() == R.id.refresh) {
             refreshData();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    void refreshData(){
+    void refreshData() {
         String sortParameter = "release_date.desc";
         URL tmdbUrl = NetworkUtils.buildUrl(sortParameter, getString(R.string.tmdb_api_key));
         Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show();

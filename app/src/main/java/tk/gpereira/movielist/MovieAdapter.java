@@ -2,12 +2,11 @@ package tk.gpereira.movielist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.view.View.OnClickListener;
 
 import com.squareup.picasso.Picasso;
 
@@ -19,12 +18,11 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     final private MovieClickListener mOnClickListener;
 
-    interface MovieClickListener{
+    interface MovieClickListener {
         void onMovieClick(int clickedMovieIndex);
     }
 
-    MovieAdapter(ArrayList<Movie> movies, MovieClickListener listener)
-    {
+    MovieAdapter(ArrayList<Movie> movies, MovieClickListener listener) {
         mOnClickListener = listener;
         mMovies = movies;
     }
@@ -60,7 +58,6 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
         }
 
         void bind(String movie) {
-            Log.i("DATA", movie);
             Picasso.with(itemView.getContext()).load(movie).into(listItemView);
         }
 

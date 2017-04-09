@@ -7,7 +7,7 @@ public class Movie {
     private String rating;
     private String date;
 
-    public Movie(){
+    public Movie() {
         this.title = "";
         this.description = "";
         this.poster = "";
@@ -27,11 +27,11 @@ public class Movie {
         return poster;
     }
 
-    String getDate(){
+    String getDate() {
         return date;
     }
 
-    String getRating(){
+    String getRating() {
         return rating;
     }
 
@@ -50,6 +50,7 @@ public class Movie {
     public void setDate(String date) {
         this.date = date;
     }
+
     public void setRating(String rating) {
         this.rating = rating;
     }

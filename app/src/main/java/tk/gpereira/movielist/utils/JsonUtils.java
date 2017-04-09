@@ -1,7 +1,5 @@
 package tk.gpereira.movielist.utils;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +17,6 @@ public class JsonUtils {
             return;
         }
         JSONArray movieArray = mJSON.getJSONArray("results");
-        Log.i("DATA", movieArray.getJSONObject(0).toString(1));
         for (int i = 0; i < movieArray.length(); i++) {
             Movie movie = new Movie();
             movie.setPoster("http://image.tmdb.org/t/p/w185/" + movieArray.getJSONObject(i).getString("poster_path"));
