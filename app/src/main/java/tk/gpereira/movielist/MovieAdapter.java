@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import static tk.gpereira.movielist.MainActivity.movies;
 
 class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private ArrayList<Movie> mMovies;
 
     final private MovieClickListener mOnClickListener;
 
@@ -22,9 +22,9 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
         void onMovieClick(int clickedMovieIndex);
     }
 
-    MovieAdapter(ArrayList<Movie> movies, MovieClickListener listener) {
+    MovieAdapter(ArrayList<Movie> mMovies, MovieClickListener listener) {
         mOnClickListener = listener;
-        mMovies = movies;
+        movies = mMovies;
     }
 
     @Override
@@ -40,12 +40,12 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mMovies.size();
+        return movies.size();
     }
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-        holder.bind(mMovies.get(position).getPoster());
+        holder.bind(movies.get(position).getPoster());
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder implements OnClickListener {

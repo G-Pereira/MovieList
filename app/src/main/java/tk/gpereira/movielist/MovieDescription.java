@@ -21,11 +21,11 @@ public class MovieDescription extends AppCompatActivity {
 
         Intent previousIntent = getIntent();
         mPosterImageView = (ImageView) findViewById(R.id.iv_desc);
-        mDescriptionTextView = (TextView) findViewById(R.id.tv_desc);
         mTitleTextView = (TextView) findViewById(R.id.tv_title);
+        mDescriptionTextView = (TextView) findViewById(R.id.tv_desc);
         Picasso.with(this).load(previousIntent.getStringExtra("poster")).into(mPosterImageView);
-        mDescriptionTextView.setText(previousIntent.getStringExtra("description"));
         mTitleTextView.setText(previousIntent.getStringExtra("title") + " (" + previousIntent.getStringExtra("date") + ") " + previousIntent.getStringExtra("rating") + "/10");
+        mDescriptionTextView.setText(previousIntent.getStringExtra("description"));
     }
 
 }
