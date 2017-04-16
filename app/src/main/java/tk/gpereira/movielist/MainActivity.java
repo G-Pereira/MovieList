@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     MovieAdapter movieAdapter;
     RecyclerView mMovieList;
+    String sortParameter = "top_rated";
 
     ArrayList<Movie> movies = new ArrayList<>();
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         movieAdapter = new MovieAdapter(movies, this);
         mMovieList.setAdapter(movieAdapter);
-        refreshData();
+        refreshData(sortParameter);
     }
 
     @Override
@@ -61,16 +62,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.refresh) {
-            refreshData();
+        if (item.getItemId() == R.id.sort) {
+            if (sortParameter.equals("top_rated")) {
+                sortParameter = "popular";
+            } else {
+                sortParameter = "top_rated";
+            }
+            refreshData(sortParameter);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    void refreshData() {
-        String sortParameter = "release_date.desc";
+    void refreshData(String sortParameter) {
         URL tmdbUrl = NetworkUtils.buildUrl(sortParameter, getString(R.string.tmdb_api_key));
-        Toast.makeText(this, "Loading", Toast.LENGTH_SHORT).show();
+        String toastMessage = sortParameter.equals("top_rated") ? "Loading Top Rated" : "Loading Popular";
+        Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
         new MovieQueryTask().execute(tmdbUrl);
     }
 

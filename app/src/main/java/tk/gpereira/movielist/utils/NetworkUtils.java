@@ -16,22 +16,19 @@ import java.util.Scanner;
  */
 public class NetworkUtils {
 
-    private final static String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/popular";
+    private final static String TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/";
 
     private final static String PARAM_API = "api_key";
-
-    private final static String PARAM_SORT = "sort_by";
 
     /**
      * Builds the URL used to query TMDB.
      *
-     * @param tmdbSearchQuery The keyword that will be queried for.
-     * @return The URL to use to query the GitHub.
+     * @param tmdbSearchQuery List to query.
+     * @return The URL to use to query the TMDB.
      */
     public static URL buildUrl(String tmdbSearchQuery, String API_KEY) {
-        Uri builtUri = Uri.parse(TMDB_BASE_URL).buildUpon()
+        Uri builtUri = Uri.parse(TMDB_BASE_URL + tmdbSearchQuery).buildUpon()
                 .appendQueryParameter(PARAM_API, API_KEY)
-                .appendQueryParameter(PARAM_SORT, tmdbSearchQuery)
                 .build();
 
         URL url = null;
