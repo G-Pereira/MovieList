@@ -3,10 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="2dp">
+
     <ImageView
         android:id="@+id/iv_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/app_name"/>
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name" />
 
 </FrameLayout>
